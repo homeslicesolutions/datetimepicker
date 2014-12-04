@@ -2,7 +2,6 @@
  * @preserve jQuery DateTimePicker plugin v2.0.9 (branch v0.1)
  * @homepage http://xdsoft.net/jqplugins/datetimepicker/
  * (c) 2014, Chupurnov Valeriy.
- * 
  */
 (function( $ ) {
 	// fix for ie8
@@ -296,8 +295,11 @@
 					if( options.datepicker && !options.timepicker )
 						timepicker.removeClass('active');
 						
-					if( options.value )
-						input&&input.val&&input.val(options.value);
+					if( options.value ) {
+						input && input.val && input.val(options.value);
+						//_xdsoft_datetime.selectedTime = new Date(_xdsoft_datetime.str());
+						_xdsoft_datetime.setSelectedTime( _xdsoft_datetime.str() );
+					}
 						
 					if( isNaN(options.dayOfWeekStart)||parseInt(options.dayOfWeekStart)<0||parseInt(options.dayOfWeekStart)>6 )
 						options.dayOfWeekStart = 0;
@@ -481,11 +483,20 @@
 						_this.currentTime = (typeof dTime == 'string')? _this.strtodatetime(dTime) : _this.isValidDate(dTime) ? dTime: _this.now();
 						datetimepicker.trigger('xchange.xdsoft');
 					};
+
+					_this.setSelectedTime = function( dTime) {
+						_this.selectedTime = (typeof dTime == 'string')? _this.strtodatetime(dTime) : _this.isValidDate(dTime) ? dTime: _this.now();
+						datetimepicker.trigger('xchange.xdsoft');
+					};
 					
 					_this.getCurrentTime = function( dTime) {
 						return _this.currentTime;
 					};
-					
+
+					_this.getSelectedTime = function() {
+						return _this.selectedTime;
+					}
+
 					_this.nextMonth = function() {
 						var month = _this.currentTime.getMonth()+1;
 						if( month==12 ) {
@@ -637,6 +648,10 @@
 							if( _xdsoft_datetime.currentTime.dateFormat('d.m.Y')==start.dateFormat('d.m.Y') ) {
 								classes.push('xdsoft_current');
 							}
+
+							if( _xdsoft_datetime.selectedTime && _xdsoft_datetime.selectedTime.dateFormat('d.m.Y')==start.dateFormat('d.m.Y') ) {
+								classes.push('xdsoft_selected');
+							}
 							
 							if( today.dateFormat('d.m.Y')==start.dateFormat('d.m.Y') ) {
 								classes.push('xdsoft_today');
@@ -746,6 +761,8 @@
 						datetimepicker.trigger('select.xdsoft',[currentTime]);
 						
 						input.val( _xdsoft_datetime.str() );
+						_xdsoft_datetime.setSelectedTime( _xdsoft_datetime.str() );
+
 						if( (timerclick>1||(options.closeOnDateSelect===true||( options.closeOnDateSelect===0&&!options.timepicker )))&&!options.inline ) {
 							datetimepicker.trigger('close.xdsoft');
 						}
@@ -772,6 +789,8 @@
 						datetimepicker.trigger('select.xdsoft',[currentTime]);
 						
 						datetimepicker.data('input').val( _xdsoft_datetime.str() );
+						//_xdsoft_datetime.selectedTime = new Date(_xdsoft_datetime.str());
+						_xdsoft_datetime.setSelectedTime( _xdsoft_datetime.str() );
 						
 						!options.inline&&datetimepicker.trigger('close.xdsoft');
 						
@@ -835,6 +854,8 @@
 					}else if( options.datepicker && !options.timepicker ) {
 						datepicker.trigger( event, [delta, deltaX, deltaY]);
 						input.val&&input.val( _xdsoft_datetime.str() );
+						//_xdsoft_datetime.selectedTime = new Date(_xdsoft_datetime.str());
+						_xdsoft_datetime.setSelectedTime( _xdsoft_datetime.str() );
 						datetimepicker.trigger('changedatetime.xdsoft');
 						return false;
 					}
