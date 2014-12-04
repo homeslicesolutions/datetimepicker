@@ -429,7 +429,6 @@
 									$(this).val((new Date()).dateFormat( options.format ));
 								}
 								_xdsoft_datetime.setSelectedTime($(this).val());
-								console.log('hsdll')
 								datetimepicker.trigger('changedatetime.xdsoft');
 							});
 					}
@@ -769,9 +768,7 @@
 						if( (timerclick>1||(options.closeOnDateSelect===true||( options.closeOnDateSelect===0&&!options.timepicker )))&&!options.inline ) {
 							datetimepicker.trigger('close.xdsoft');
 						}
-
-						console.log('click')
-
+						
 						if( options.onSelectDate &&	options.onSelectDate.call ) {
 							options.onSelectDate.call(datetimepicker,_xdsoft_datetime.currentTime,datetimepicker.data('input'));
 						}
