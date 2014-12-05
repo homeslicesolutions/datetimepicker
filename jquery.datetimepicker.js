@@ -428,9 +428,10 @@
 								else if( !Date.parseDate( $(this).val(), options.format ) ) {
 									$(this).val((new Date()).dateFormat( options.format ));
 								}
-								_xdsoft_datetime.setSelectedTime($(this).val());
+								_xdsoft_datetime.setSelectedTime( $(this).val() );
 								datetimepicker.trigger('changedatetime.xdsoft');
 							});
+
 					}
 					options.dayOfWeekStartPrev = (options.dayOfWeekStart==0)?6:options.dayOfWeekStart-1;
 					datetimepicker
@@ -768,7 +769,7 @@
 						if( (timerclick>1||(options.closeOnDateSelect===true||( options.closeOnDateSelect===0&&!options.timepicker )))&&!options.inline ) {
 							datetimepicker.trigger('close.xdsoft');
 						}
-						
+
 						if( options.onSelectDate &&	options.onSelectDate.call ) {
 							options.onSelectDate.call(datetimepicker,_xdsoft_datetime.currentTime,datetimepicker.data('input'));
 						}
